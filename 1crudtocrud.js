@@ -26,12 +26,12 @@ function createApi(event) {
     //post method create api call in axios
     axios
         .post(
-            "https://crudcrud.com/api/128cfb77c29643fc806ef4f3fb5bc858/appintmentData",
+            "https://crudcrud.com/api/67e9b33142ca45319949f9d586d5f2c0/appintmentData",
             formData
         )
         .then((res) => {
             showUserDisplay(res.data);
-            // console.log(res);
+            // console.log("--->", res);
         })
         .catch((err) => {
             document.body.innerHTML =
@@ -41,8 +41,21 @@ function createApi(event) {
             console.log(err);
         });
 }
+window.addEventListener("DOMContentLoaded", () => {
+    axios
+        .get(
+            "https://crudcrud.com/api/67e9b33142ca45319949f9d586d5f2c0/appintmentData"
+        )
+        .then((res) => {
+            console.log("---", res);
+            for (let i = 0; i < res.data.length; i++) {
+                showUserDisplay(res.data[i]);
+            }
+        })
+        .catch((err) => console.log(err));
+});
 
-function showUserDisplay() {
+function showUserDisplay(formData) {
     let new_ele = document.createElement("li");
     new_ele.textContent =
         formData.name +
