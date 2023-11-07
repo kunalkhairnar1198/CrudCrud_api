@@ -21,12 +21,13 @@ function createApi(event) {
         phone,
         time,
         date,
+        // _id,
     };
-
+    // console.log(formData);
     //post method create api call in axios
     axios
         .post(
-            "https://crudcrud.com/api/67e9b33142ca45319949f9d586d5f2c0/appintmentData",
+            "https://crudcrud.com/api/341cd3718d4146b3ae76ad048bd765e8/appintmentData",
             formData
         )
         .then((res) => {
@@ -44,7 +45,7 @@ function createApi(event) {
 window.addEventListener("DOMContentLoaded", () => {
     axios
         .get(
-            "https://crudcrud.com/api/67e9b33142ca45319949f9d586d5f2c0/appintmentData"
+            "https://crudcrud.com/api/341cd3718d4146b3ae76ad048bd765e8/appintmentData"
         )
         .then((res) => {
             console.log("---", res);
@@ -77,8 +78,8 @@ function showUserDisplay(formData) {
     new_ele.appendChild(new_button);
 
     new_button.onclick = () => {
-        localStorage.removeItem("formData");
-        new_ele.remove();
+        // event.preventDefault();
+        deleteData(formData._id);
     };
 
     let edit_button = document.createElement("input");
@@ -97,4 +98,30 @@ function showUserDisplay(formData) {
         date.value = formData.date;
         time.value = formData.time;
     };
+}
+
+//delete the created api call
+function deleteData(UserId) {
+    let parentElement = document.getElementById("list");
+    for (let i = 0; i < parentElement.children.length; i++) {
+        let child = parentElement.children[i];
+        console.log(child);
+        if (child.textContent.includes(UserId)) {
+            parentElement.removeChild(child);
+            break;
+        }
+    }
+
+    axios
+        .delete(
+            `https://crudcrud.com/api/341cd3718d4146b3ae76ad048bd765e8/appintmentData/${UserId}`
+        )
+        .then((res) => {
+            document.body.innerHTML = "<h4>User data deleted successfully</h4>";
+            console.log("Deleted object", UserId);
+        })
+        .catch((err) => {
+            document.body.innerHTML = "<h4>Failed to delete user data</h4>";
+            console.log(err);
+        });
 }
