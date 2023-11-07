@@ -27,7 +27,7 @@ function createApi(event) {
     //post method create api call in axios
     axios
         .post(
-            "https://crudcrud.com/api/341cd3718d4146b3ae76ad048bd765e8/appintmentData",
+            "https://crudcrud.com/api/81e3e80b6cc24e1fafe6e6b7b97ae257/appintmentData",
             formData
         )
         .then((res) => {
@@ -45,7 +45,7 @@ function createApi(event) {
 window.addEventListener("DOMContentLoaded", () => {
     axios
         .get(
-            "https://crudcrud.com/api/341cd3718d4146b3ae76ad048bd765e8/appintmentData"
+            "https://crudcrud.com/api/81e3e80b6cc24e1fafe6e6b7b97ae257/appintmentData"
         )
         .then((res) => {
             console.log("---", res);
@@ -89,23 +89,31 @@ function showUserDisplay(formData) {
     new_ele.appendChild(edit_button);
 
     edit_button.onclick = () => {
-        localStorage.removeItem("formData");
-        new_ele.remove();
+        // localStorage.removeItem("formData");
+        updateUserData(formData);
 
-        fname.value = formData.name;
-        mail.value = formData.email;
-        num.value = formData.phone;
-        date.value = formData.date;
-        time.value = formData.time;
+        // new_ele.remove();
     };
 }
 
+function updateUserData(formData) {
+    //data populate and delete the data 
+    deleteData(formData._id);
+
+    fname.value = formData.name;
+    mail.value = formData.email;
+    num.value = formData.phone;
+    date.value = formData.date;
+    time.value = formData.time;
+
+
+}
 //delete the created api call
 function deleteData(UserId) {
     let parentElement = document.getElementById("list");
     for (let i = 0; i < parentElement.children.length; i++) {
         let child = parentElement.children[i];
-        console.log(child);
+        // console.log(child);
         if (child.textContent.includes(UserId)) {
             parentElement.removeChild(child);
             break;
@@ -114,14 +122,15 @@ function deleteData(UserId) {
 
     axios
         .delete(
-            `https://crudcrud.com/api/341cd3718d4146b3ae76ad048bd765e8/appintmentData/${UserId}`
+            `https://crudcrud.com/api/81e3e80b6cc24e1fafe6e6b7b97ae257/appintmentData/${UserId}`
         )
         .then((res) => {
-            document.body.innerHTML = "<h4>User data deleted successfully</h4>";
+            // document.body.innerHTML = "<h4>User data deleted successfully</h4>";
             console.log("Deleted object", UserId);
         })
         .catch((err) => {
-            document.body.innerHTML = "<h4>Failed to delete user data</h4>";
+            // document.body.innerHTML = "<h4>Failed to delete user data</h4>";
             console.log(err);
         });
 }
+
